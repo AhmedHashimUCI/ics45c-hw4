@@ -87,9 +87,13 @@ void String::print(std::ostream & out) const{
 }
 
 void String::read(std::istream &in){
-	int index = 0;
-	char c;
 	in >> std::ws;
+
+	int maxima= 16;
+	int len = 0;
+	char *temp = new char[maxima];
+
+	char c;
 
 	for (int i =0; in.get(c); ++i){
 	
@@ -98,15 +102,35 @@ void String::read(std::istream &in){
         break;
     }
 
-	if (i < MAXLEN -1){
-	
-		buf[index++] = c;
 
+	if (len + 1 >= maxima){
+		int newmaxima = maxima * 2;
+		char *templarge = new char[newmaxima];
+
+		for (int i = 0; i < len; ++i){
+
+			templarge[i] = temp[i];
+
+		}
+
+			delete[] temp;
+			temp = templarge;
+			maxima = newmaxima;
+
+		}
+
+		temp[len++] = c;
+		
 	}
 
-}
+	temp[len] = '\0';
+	char *newbuf = strdup(temp);
 
-buf[index] = '\0';
+	delete[] temp;
+	delete buf;
+
+	buf = newbuf;
+
 
 }
 

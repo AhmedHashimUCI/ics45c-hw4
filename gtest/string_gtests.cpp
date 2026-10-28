@@ -29,6 +29,9 @@ TEST(StringClass, Print) {
     stringstream out3;
     out3 << s << s << String("bar");
     EXPECT_STREQ(out3.str().c_str(), "foofoobar");
+
+	
+
 }
 
 TEST(StringClass, Comparisons) {
@@ -52,4 +55,20 @@ TEST(StringClass, Assignment) {
     s = String();
     EXPECT_EQ(s, String());
     EXPECT_EQ(s.size(), 0);
+}
+
+TEST(StringClass, Read) {
+    istringstream input("LanaDelRey ArcticMonkeys");
+
+    String first;
+    String second;
+
+    first.read(input);
+    second.read(input);
+
+    EXPECT_EQ(first, String("LanaDelRey"));
+    EXPECT_EQ(second, String("ArcticMonkeys"));
+
+    EXPECT_EQ(first.size(), 10);
+    EXPECT_EQ(second.size(), 13);
 }
