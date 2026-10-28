@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <sstream>
-
+#include <utility>
 #include "string.hpp"
 
 using namespace std;
@@ -134,4 +134,24 @@ TEST(StringClass, Memory) {
 
     a += String(" Del Rey");
     EXPECT_EQ(a, String("Bana Del Rey"));
+}
+
+
+TEST(StringClass, CopyAndMoveAssignment) {
+    String test1("Lana");
+    String test2("Arctic");
+
+    test1 = test2;
+
+    EXPECT_EQ(test1, String("Arctic"));
+    EXPECT_EQ(test2, String("Arctic"));
+
+    String out1("Monkeys");
+
+    test1 = move(out1);
+
+    EXPECT_EQ(test1, String("Monkeys"));
+
+    test1 = test1;
+    EXPECT_EQ(test1, String("Monkeys"));
 }

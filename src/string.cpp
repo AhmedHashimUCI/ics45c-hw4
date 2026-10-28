@@ -29,6 +29,14 @@ void String::swap(String &s){
 
 }
 
+
+String &String::operator=(String &&s){
+	swap(s);
+	return *this;
+	
+
+}
+
 String::String(String &&s){
 
 	buf = s.buf;
@@ -36,9 +44,14 @@ String::String(String &&s){
 
 }
 
-String &String::operator=(String s){
+String &String::operator=(const String &s){
 
-	swap(s);
+	if(this != &s){
+	String newstr(s);
+	swap(newstr);
+	
+
+	}
 
 	return *this;
 }
