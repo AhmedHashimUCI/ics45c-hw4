@@ -126,7 +126,7 @@ void String::read(std::istream &in){
 	char *newbuf = strdup(temp);
 
 	delete[] temp;
-	delete buf;
+	delete[] buf;
 
 	buf = newbuf;
 
