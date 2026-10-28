@@ -19,15 +19,20 @@ String::String(const String &s){
 
 }
 
-void String::swap(String &s){}
+
+String::String(int length) {
+    buf = new char[length + 1];
+}
+
+
+void String::swap(String &s){
+	std::swap(buf, s.buf);
+
+}
 
 String &String::operator=(String s){
 
-	if(this !=&s){
-
-		strcpy(buf, s.buf);
-		
-	}
+	swap(s);
 
 	return *this;
 }
@@ -40,10 +45,27 @@ char &String::operator[](int index){
 
 		return buf[index];
 	}else {
-	
+	std::cerr << "ERROR: Index Out Of Bounds" << std::endl;
 	return buf[0];
 
 	}
+}
+
+
+const char &String::operator[](int index) const{
+
+	if(in_bounds(index)){
+
+		return buf[index];
+	}else {
+
+	std::cerr << "ERROR: Index Out Of Bounds" << std::endl;
+	return buf[0];
+
+	}
+
+
+
 }
 
 int String::size() const{
@@ -107,7 +129,7 @@ int String::indexOf(char c) const{
 		}
 	}
 		
-int String::indexOf(const String &s) const{
+int String::indexOf(String s) const{
 
 	const char *cha = strstr(buf, s.buf);
 
@@ -120,7 +142,7 @@ int String::indexOf(const String &s) const{
 }		
 	
 
-String &String::operator +=(const String &s){
+String &String::operator +=(String s){
 
 	
 	const int first = size();
@@ -134,41 +156,41 @@ String &String::operator +=(const String &s){
 }
 
 
-String String::operator+(const String &s) const{
+String String::operator+(String s) const{
 	String orignal(*this);
 	orignal += s;
 	return orignal;
 }
 
 
-bool String::operator ==(const String &s) const{
+bool String::operator ==(String s) const{
 
 	return strcmp(buf, s.buf) == 0;
 
 }
 
-bool String::operator !=(const String &s) const{
+bool String::operator !=(String s) const{
 
 	return strcmp(buf, s.buf) != 0;
 }
 
-bool String::operator >(const String &s) const {
+bool String::operator >(String s) const {
 
 	return strcmp(buf, s.buf) > 0;
 }
 
-bool String::operator <(const String &s) const{
+bool String::operator <(String s) const{
 
 	return strcmp(buf, s.buf) < 0;
 
 }
 
-bool String::operator <=(const String &s) const{
+bool String::operator <=(String s) const{
 
 	return strcmp(buf, s.buf) <= 0;
 }
 
-bool String::operator >=(const String &s) const{
+bool String::operator >=(String s) const{
 
 	return strcmp(buf, s.buf) >= 0;
 }
@@ -188,7 +210,7 @@ String::~String(){
 
 char *String::strdup(const char *s){
 	int len = strlen(s);
-	char *str = new char[length +1]
+	char *str = new char[len +1];
 
 	strcpy(str, s);
 
@@ -311,7 +333,7 @@ const char* String::strstr(const char *haystack, const char *needle){
 
 }
 
-std::ostream &operator<<(std::ostream &out, const String &s){
+std::ostream &operator<<(std::ostream &out, String s){
 
 	s.print(out);
 	return out;
