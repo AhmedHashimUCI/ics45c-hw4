@@ -111,7 +111,7 @@ buf[index] = '\0';
 }
 
 String String::reverse() const{
-	String result;
+	String result(size());
 	reverse_cpy(result.buf, buf);
 	return result;
 }
@@ -157,9 +157,13 @@ String &String::operator +=(String s){
 
 
 String String::operator+(String s) const{
-	String orignal(*this);
-	orignal += s;
-	return orignal;
+	int len = size() + s.size();
+
+	String newstr(len);
+	strcpy(newstr.buf, buf);
+	strcpy(newstr.buf, s.buf);
+
+	return  newstr;
 }
 
 
