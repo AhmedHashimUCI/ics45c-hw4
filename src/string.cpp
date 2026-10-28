@@ -29,6 +29,13 @@ void String::swap(String &s){
 
 }
 
+String::String(String &&s){
+
+	buf = s.buf;
+	s.buf = nullptr;
+
+}
+
 String &String::operator=(String s){
 
 	swap(s);
