@@ -24,7 +24,20 @@ TEST(StringFunction, strcpy) {
 }
 
 TEST(StringFunction, strdup) {
-    EXPECT_TRUE(false);
+    char *result = String::strdup("Lana Del Rey");
+
+    EXPECT_STREQ(result, "Lana Del Rey");
+    EXPECT_EQ(String::strlen(result), 12);
+
+    delete[] result;
+
+    char *empty = String::strdup("");
+
+    EXPECT_STREQ(empty, "");
+    EXPECT_EQ(String::strlen(empty), 0);
+
+    delete[] empty;
+
 }
 
 TEST(StringFunction, strncpy) {
