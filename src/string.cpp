@@ -2,7 +2,6 @@
 #include <iosfwd>
 #include <iostream>
 
-constexpr int MAXLEN = 128;
 String::String(const char *s){
 
 	if(s == nullptr){
@@ -169,12 +168,16 @@ int String::indexOf(String s) const{
 String &String::operator +=(String s){
 
 	
-	const int first = size();
-	const int incoming = s.size();
+	int addedlen = size() + s.size();
+	char *newBuf = new char[addedlen+1];
 
-	if (incoming > (MAXLEN - 1) - first)
-        std::cerr << "ERROR: String Capacity Exceeded" << std::endl;
-    strncat(buf, s.buf, (MAXLEN - 1) - first);
+	strcpy(newBuf, buf);
+	strcat(newBuf, s.buf);
+
+	delete[] buf;
+	buf = newBuf;
+	
+
     return *this;
 
 }
@@ -184,10 +187,11 @@ String String::operator+(String s) const{
 	int len = size() + s.size();
 
 	String newstr(len);
-	strcpy(newstr.buf, buf);
-	strcpy(newstr.buf, s.buf);
 
-	return  newstr;
+	strcpy(newstr.buf, buf);
+	strcat(newstr.buf, s.buf);
+
+	return newstr;
 }
 
 
@@ -229,6 +233,7 @@ String::~String(){
 	
 	delete[] buf;
 	buf = nullptr;
+
 
 }
 
@@ -332,17 +337,17 @@ void String::reverse_cpy(char * dest, const char *src){
 }
 
 const char * String::strchr(const char *str, char c){
-	
-	  if (c == '\0') {
-        return nullptr;
-    }
 
-	for (int i = 0; str[i] != '\0'; ++i){
+
+	for (int i = 0; ; ++i){
 
 		if (str[i] == c){
 			return &str[i];
-
 		}
+
+		if (str[i] == '\0') {
+            return nullptr;
+        }
 
 	}
 	return nullptr;
@@ -350,6 +355,10 @@ const char * String::strchr(const char *str, char c){
 
 
 const char* String::strstr(const char *haystack, const char *needle){
+	if (needle[0] == '\0') {
+        return haystack;
+    }
+
 
 	for(int i =0; haystack[i] != '\0'; ++i){
 		if (strncmp(&haystack[i], needle, strlen(needle)) ==0){
